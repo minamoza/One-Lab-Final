@@ -1,17 +1,17 @@
 //
-//  SearchPage.swift
+//  AddPage.swift
 //  One-Lab-Final
 //
-//  Created by Amina Moldamyrza on 26.04.2022.
+//  Created by Бексултан Нурпейс on 26.04.2022.
 //
 
 import UIKit
 
-class SearchPage: UIViewController {
+class AddPage: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.backgroundColor = .systemRed
         // Do any additional setup after loading the view.
     }
     
