@@ -7,4 +7,6 @@ target 'One-Lab-Final' do
 
   # Pods for One-Lab-Final
 pod 'SnapKit', '~> 5.0.0'
+pod 'Alamofire'
+pod'AlamofireImage'
 end
