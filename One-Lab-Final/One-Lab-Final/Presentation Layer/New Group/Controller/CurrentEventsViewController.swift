@@ -1,18 +1,17 @@
 //
-//  SearchPage.swift
+//  CurrentEventsViewController.swift
 //  One-Lab-Final
 //
-//  Created by Amina Moldamyrza on 26.04.2022.
+//  Created by Бексултан Нурпейс on 27.04.2022.
 //
 
 import UIKit
 
-class SearchPage: UIViewController {
+class CurrentEventsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .blue
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .systemRed
     }
     
 

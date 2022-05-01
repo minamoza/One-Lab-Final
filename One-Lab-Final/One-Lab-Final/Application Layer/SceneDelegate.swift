@@ -33,7 +33,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         func creatSearchNC() -> UINavigationController{
-            let mySearchVC = SearchPage()
+//            let mySearchVC = SearchResultPage(viewModel: SearchedPhotoViewModel(photoService: GetSearchedPhotoImpl()))
+            let mySearchVC = SearchPage(viewModel: PhotoViewModel(photoService: GetPhotoServiceImpl()))
+            
             mySearchVC.tabBarItem = UITabBarItem(
                 title: "",
                 image: UIImage(systemName: "photo"),
