@@ -7,9 +7,9 @@
 
 import SnapKit
 
-typealias CategoryCellConfigurator = CollectionViewCellConfigurator<CategoryCell, CategoryModel>
+typealias CategoryCellConfigurator = CollectionViewCellConfigurator<CategorySubCell, CategoryModel>
 
-class CategoryCell: UICollectionViewCell, ConfigurableCell {
+class CategorySubCell: UICollectionViewCell, ConfigurableCell {
 
     typealias DataType = CategoryModel
     

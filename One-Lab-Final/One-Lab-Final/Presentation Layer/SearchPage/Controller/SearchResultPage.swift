@@ -17,7 +17,7 @@ class SearchResultPage: UIViewController {
         cv.backgroundColor = .systemBackground
         cv.showsHorizontalScrollIndicator = false
         cv.showsVerticalScrollIndicator = false
-        cv.register(DiscoverCell.self, forCellWithReuseIdentifier: DiscoverCell.identifier)
+        cv.register(DiscoverSubCell.self, forCellWithReuseIdentifier: DiscoverSubCell.identifier)
         return cv
     }()
     
@@ -37,24 +37,24 @@ class SearchResultPage: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionViewForPhoto.dataSource = self
         
         configureCollectionView()
-        setUpCollectionViewItemSize()
-        fetchData()
-        bindViewModel()
     }
     
-    private func fetchData(){
-        photoViewModel.getPhotos(query: "blue")
+    func fetchData(query: String){
+        photoViewModel.getPhotos(query: query)
+        bindViewModel()
+        setUpCollectionViewItemSize()
     }
     
     private func bindViewModel(){
         photoViewModel.didLoadPhoto = { [self] photoDatas in
             for photo in photoDatas{
-                let photoData = PhotoCell(photoImage: photo.urls.full, user: photo.user.firstName)
+                let photoData = PhotoCell(photoImage: photo.urls.full, user: photo.user.firstName,
+                                          width: Double(photo.width), height: Double(photo.height))
                 images1.append(photoData)
             }
+            collectionViewForPhoto.dataSource = self
             collectionViewForPhoto.reloadData()
         }
         
@@ -73,32 +73,25 @@ class SearchResultPage: UIViewController {
         collectionViewForPhoto.collectionViewLayout = customLayout
     }
     
-    func getSize(url: String) -> CGSize{
-        if let photoURL = URL(string: url){
-            if let data = try? Data(contentsOf: photoURL) {
-                if let image = UIImage(data: data) {
-                    return image.size
-                }
-            }
-        }
-        return CGSize()
-    }
+
 }
 
 extension SearchResultPage: CustomLayoutDelegate{
     func collectionView(_ collectionView: UICollectionView, sizeOfPhotoAtIndexPath indexPath: IndexPath) -> CGSize {
-        return getSize(url: images1[indexPath.row].photoImage)
+        return CGSize(width: images1[indexPath.row].width, height: images1[indexPath.row].height)
     }
 }
 
 extension SearchResultPage: UICollectionViewDataSource{
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiscoverSubCell.identifier, for: indexPath) as! DiscoverSubCell
+        cell.configure(data: images1[indexPath.row])
+        return cell
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return images1.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiscoverCell.identifier, for: indexPath) as! DiscoverCell
-        cell.configure(data: images1[indexPath.row])
-        return cell
-    }
 }

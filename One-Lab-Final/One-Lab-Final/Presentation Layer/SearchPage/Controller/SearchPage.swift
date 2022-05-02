@@ -14,6 +14,8 @@ enum Section: Int, CaseIterable {
 
 class SearchPage: UIViewController {
     
+//    private var timer: Timer
+    
     private let searchBar = UISearchBar()
     private let collectionViewForCategory: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -31,6 +33,9 @@ class SearchPage: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .systemBackground
+        cv.register(HeaderCollectionView.self,
+                    forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                    withReuseIdentifier: HeaderCollectionView.identifier)
 //        cv.isScrollEnabled = false
         return cv
     }()
@@ -38,6 +43,8 @@ class SearchPage: UIViewController {
     private var categoryLabel = UILabel()
     private var discoverLabel = UILabel()
     private var cellBuilder = CollectionCellBuilder()
+    
+    private var categories: [String] = ["Nature", "Black and White", "Space", "Textures", "Minimal", "Animals", "Travel", "Underwater", "Architecture", "Sky", "Flowers", "Abstract"]
     
     private var categoryCell: [CellConfigurator] = []
     private var discoverCell: [CellConfigurator] = []
@@ -61,6 +68,12 @@ class SearchPage: UIViewController {
         
         view.backgroundColor = .systemBackground
         
+        navigationItem.titleView = searchBar
+        
+        for category in categories{
+            categoryCell.append(CategoryCellConfigurator(item: CategoryModel(image: category, description: category)))
+        }
+        
         configureCollectionView()
         setUpCollectionViewItemSize()
         fetchData()
@@ -72,7 +85,6 @@ class SearchPage: UIViewController {
         collectionViewForPhoto.delegate = self
         searchBar.delegate = self
         
-        navigationItem.titleView = searchBar
 //        searchBar.hidesNavigationBarDuringPresentation = false
         
         items.append(categoryCell)
@@ -87,7 +99,8 @@ class SearchPage: UIViewController {
     private func bindViewModel(){
         photoViewModel.didLoadPhoto = { [self] photoDatas in
             for photo in photoDatas{
-                let photoData = PhotoCell(photoImage: photo.urls.full, user: photo.user.firstName)
+                let photoData = PhotoCell(photoImage: photo.urls.full, user: photo.user.firstName,
+                                          width: Double(photo.width), height: Double(photo.height))
                 discoverCell.append(DiscoverCellConfigurator(item: photoData))
                 photosArray.append(photoData)
             }
@@ -148,16 +161,6 @@ class SearchPage: UIViewController {
         return sectionLabel
     }
     
-    func getSize(url: String) -> CGSize{
-        if let photoURL = URL(string: url){
-            if let data = try? Data(contentsOf: photoURL) {
-                if let image = UIImage(data: data) {
-                    return image.size
-                }
-            }
-        }
-        return CGSize()
-    }
 
 }
 
@@ -187,6 +190,7 @@ extension SearchPage: UICollectionViewDataSource{
         
         return cell
     }
+    
 }
 
 extension SearchPage:UICollectionViewDelegateFlowLayout{
@@ -194,14 +198,34 @@ extension SearchPage:UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.height * 0.45, height: collectionView.frame.height * 0.45)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader,
+                                                                     withReuseIdentifier: HeaderCollectionView.identifier,
+                                                                     for: indexPath) as! HeaderCollectionView
+        header.configure()
+        return header
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize(width: view.frame.size.width, height: view.frame.size.height * 0.35)
+    }
 }
 
 extension SearchPage: CustomLayoutDelegate{
+    
     func collectionView(_ collectionView: UICollectionView, sizeOfPhotoAtIndexPath indexPath: IndexPath) -> CGSize {
-        return getSize(url: photosArray[indexPath.row].photoImage)
+        return CGSize(width: photosArray[indexPath.row].width, height: photosArray[indexPath.row].height)
     }
 }
 
 extension SearchPage: UISearchBarDelegate, UISearchDisplayDelegate{
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchBar.text else { return }
+        let newVC = SearchResultPage(viewModel: SearchedPhotoViewModel(photoService: GetSearchedPhotoImpl()))
+        newVC.fetchData(query: searchText)
+        self.navigationController?.pushViewController(newVC, animated: true)
+    }
     
 }

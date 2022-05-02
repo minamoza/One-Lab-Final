@@ -7,9 +7,9 @@
 
 import UIKit
 
-typealias DiscoverCellConfigurator = CollectionViewCellConfigurator<DiscoverCell, PhotoCell>
+typealias DiscoverCellConfigurator = CollectionViewCellConfigurator<DiscoverSubCell, PhotoCell>
 
-class DiscoverCell: UICollectionViewCell, ConfigurableCell {
+class DiscoverSubCell: UICollectionViewCell, ConfigurableCell {
     
     typealias DataType = PhotoCell
     

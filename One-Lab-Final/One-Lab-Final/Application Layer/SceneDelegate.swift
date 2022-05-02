@@ -13,72 +13,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+            
             guard let windowScene = (scene as? UIWindowScene) else { return }
-            
-            window = UIWindow(frame: windowScene.coordinateSpace.bounds)
-            window?.windowScene = windowScene
-            window?.rootViewController = creatTabBar()
+            window = UIWindow(windowScene: windowScene)
+            let page = MainPage(nibName: nil, bundle: nil)
+            window?.rootViewController = UINavigationController(rootViewController: page)
             window?.makeKeyAndVisible()
-        }
-
-        func creatFeedNC() -> UINavigationController{
-            let myFeedVC = FeedPage()
-            myFeedVC.tabBarItem = UITabBarItem(
-                title: "",
-                image: UIImage(systemName: "photo"),
-                tag: 0
-            )
-            
-            return UINavigationController(rootViewController: myFeedVC)
-        }
-        
-        func creatSearchNC() -> UINavigationController{
-//            let mySearchVC = SearchResultPage(viewModel: SearchedPhotoViewModel(photoService: GetSearchedPhotoImpl()))
-            let mySearchVC = SearchPage(viewModel: PhotoViewModel(photoService: GetPhotoServiceImpl()))
-            
-            mySearchVC.tabBarItem = UITabBarItem(
-                title: "",
-                image: UIImage(systemName: "photo"),
-                tag: 1
-            )
-            
-            return UINavigationController(rootViewController: mySearchVC)
-        }
-        
-        func creatAddNC() -> UINavigationController{
-            let myAddVC = AddPage()
-            myAddVC.tabBarItem = UITabBarItem(
-                title: "",
-                image: UIImage(systemName: "house"),
-                tag: 2
-            )
-            
-            return UINavigationController(rootViewController: myAddVC)
-        }
-        
-        func creatProfileNC() -> UINavigationController{
-            let myProfileVC = ProfilePage()
-            myProfileVC.tabBarItem = UITabBarItem(
-                title: "",
-                image: UIImage(systemName: "house"),
-                tag: 3
-            )
-            
-            return UINavigationController(rootViewController: myProfileVC)
-        }
-        
-        func creatTabBar() -> UITabBarController{
-            let tabbar = UITabBarController()
-            UITabBar.appearance().tintColor = .systemBlue
-            UITabBar.appearance().barTintColor = .systemGray6
-            tabbar.viewControllers = [
-                creatFeedNC(),
-                creatSearchNC(),
-                creatAddNC(),
-                creatProfileNC()
-            ]
-            tabbar.modalPresentationStyle = .fullScreen
-            return tabbar
         }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -15,4 +15,6 @@ struct CategoryModel{
 struct PhotoCell{
     let photoImage: String
     let user: String
+    let width: Double
+    let height: Double
 }
