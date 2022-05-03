@@ -39,33 +39,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E497F374-17B7-4B96-B69C-8C4C8D178ABE"
+            uuid = "0F8C5FFD-49D6-4011-8BC0-7A2715C33740"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "One-Lab-Final/Service Layer/NewService.swift"
+            filePath = "../../../../../var/folders/73/fby4qj0d1vl0cqzt4nqsrrp40000gn/T/xcode/scm/One-Lab-Final/dfd8560dcfe49a1e621d332f2ff3e156b2e9690f/One-Lab-Final/One-Lab-Final/Presentation Layer/New Group/Controller/EditorialViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "getPhotos(success:failure:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "AFF0668F-EE66-407E-A4E3-AE761FFE38F3"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "One-Lab-Final/Service Layer/NewService.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
-            landmarkName = "getPhotos(success:failure:)"
-            landmarkType = "7">
+            startingLineNumber = "14"
+            endingLineNumber = "14"
+            landmarkName = "tableView"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
