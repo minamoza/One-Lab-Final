@@ -36,6 +36,7 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+<<<<<<< HEAD
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
@@ -52,5 +53,7 @@
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
+=======
+>>>>>>> bex_branch
    </Breakpoints>
 </Bucket>

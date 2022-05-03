@@ -29,6 +29,10 @@
 		6D09383B281EEAF2009AFB7F /* CollectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D09383A281EEAF2009AFB7F /* CollectionService.swift */; };
 		6D09383D281EEB13009AFB7F /* NewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D09383C281EEB13009AFB7F /* NewService.swift */; };
 		6D09383F281EEB4D009AFB7F /* SearchedPhotoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D09383E281EEB4D009AFB7F /* SearchedPhotoService.swift */; };
+		6D093841282008CB009AFB7F /* ConfigCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D093840282008CB009AFB7F /* ConfigCell.swift */; };
+		6D093843282008DE009AFB7F /* TableCellConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D093842282008DE009AFB7F /* TableCellConfigurator.swift */; };
+		6D09384528200955009AFB7F /* EditorialViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D09384428200955009AFB7F /* EditorialViewCell.swift */; };
+		6D093847282009A5009AFB7F /* EditorialModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D093846282009A5009AFB7F /* EditorialModel.swift */; };
 		6D39F7BB281E1CDA00217703 /* ExperimentalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D39F7BA281E1CDA00217703 /* ExperimentalViewController.swift */; };
 		6D39F7BD281E1CFD00217703 /* ArchitectureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D39F7BC281E1CFD00217703 /* ArchitectureViewController.swift */; };
 		6D39F7BF281E1D3A00217703 /* NatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D39F7BE281E1D3A00217703 /* NatureViewController.swift */; };
@@ -69,6 +73,10 @@
 		6D09383A281EEAF2009AFB7F /* CollectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionService.swift; sourceTree = "<group>"; };
 		6D09383C281EEB13009AFB7F /* NewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewService.swift; sourceTree = "<group>"; };
 		6D09383E281EEB4D009AFB7F /* SearchedPhotoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedPhotoService.swift; sourceTree = "<group>"; };
+		6D093840282008CB009AFB7F /* ConfigCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConfigCell.swift; path = "One-Lab-Final/Service Layer/ConfigCell.swift"; sourceTree = SOURCE_ROOT; };
+		6D093842282008DE009AFB7F /* TableCellConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TableCellConfigurator.swift; path = "One-Lab-Final/Service Layer/TableCellConfigurator.swift"; sourceTree = SOURCE_ROOT; };
+		6D09384428200955009AFB7F /* EditorialViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditorialViewCell.swift; path = "One-Lab-Final/Service Layer/EditorialViewCell.swift"; sourceTree = SOURCE_ROOT; };
+		6D093846282009A5009AFB7F /* EditorialModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditorialModel.swift; path = "One-Lab-Final/Service Layer/EditorialModel.swift"; sourceTree = SOURCE_ROOT; };
 		6D39F7BA281E1CDA00217703 /* ExperimentalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperimentalViewController.swift; sourceTree = "<group>"; };
 		6D39F7BC281E1CFD00217703 /* ArchitectureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchitectureViewController.swift; sourceTree = "<group>"; };
 		6D39F7BE281E1D3A00217703 /* NatureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NatureViewController.swift; sourceTree = "<group>"; };
@@ -201,6 +209,7 @@
 		6D39F7C0281EB68B00217703 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6D093846282009A5009AFB7F /* EditorialModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -208,6 +217,9 @@
 		6D39F7C1281EB69300217703 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6D093840282008CB009AFB7F /* ConfigCell.swift */,
+				6D093842282008DE009AFB7F /* TableCellConfigurator.swift */,
+				6D09384428200955009AFB7F /* EditorialViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -424,6 +436,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DD594612819A3DB00F4797C /* EditorialViewController.swift in Sources */,
+				6D093841282008CB009AFB7F /* ConfigCell.swift in Sources */,
 				6DD594632819A4C900F4797C /* CurrentEventsViewController.swift in Sources */,
 				6DD594692819A50000F4797C /* TexturesAndPatternsViewController.swift in Sources */,
 				6D09383B281EEAF2009AFB7F /* CollectionService.swift in Sources */,
@@ -446,13 +459,16 @@
 				6DD594652819A4D900F4797C /* WallpapersViewController.swift in Sources */,
 				6D093835281EEA8B009AFB7F /* DiscoverSubCell.swift in Sources */,
 				6D093826281EE9A8009AFB7F /* PhotoViewModel.swift in Sources */,
+				6D093843282008DE009AFB7F /* TableCellConfigurator.swift in Sources */,
 				6D09383F281EEB4D009AFB7F /* SearchedPhotoService.swift in Sources */,
 				6D09382B281EEA03009AFB7F /* CategorySubCell.swift in Sources */,
 				6D093833281EEA6D009AFB7F /* ConfigurableCell.swift in Sources */,
 				6D53749A2818123300778531 /* AddPage.swift in Sources */,
 				6D09382D281EEA22009AFB7F /* CellBuilder.swift in Sources */,
 				39D5BECE281FF46700BE06F5 /* HeaderCollectionView.swift in Sources */,
+				6D09384528200955009AFB7F /* EditorialViewCell.swift in Sources */,
 				6D09381F281EE8E8009AFB7F /* SearchPage.swift in Sources */,
+				6D093847282009A5009AFB7F /* EditorialModel.swift in Sources */,
 				39C8E150281808E8009DD9F5 /* SearchResultPage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -595,7 +611,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 42RNWNGW2D;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "One-Lab-Final/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -623,7 +639,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 42RNWNGW2D;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "One-Lab-Final/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

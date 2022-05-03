@@ -30,3 +30,5 @@ class CollectionViewCellConfigurator<CellType: ConfigurableCell, DataType>: Cell
     }
     
 }
+
+
