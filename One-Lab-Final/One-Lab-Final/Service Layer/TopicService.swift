@@ -40,31 +40,23 @@ import Foundation
 // MARK: - Welcome
 struct Topic: Codable {
     let id, slug, title: String?
-    let publishedAt, updatedAt, startsAt, endsAt: Date?
-//    let onlySubmissionsAfter: JSONNull?
+    let onlySubmissionsAfter: JSONNull?
     let featured: Bool?
     let totalPhotos: Int?
-    let links: WelcomeLinks?
+//    let links: WelcomeLinks?
     let status: String?
     let owners: [User]?
-//    let currentUserContributions: [JSONAny]
-//    let totalCurrentUserSubmissions: TotalCurrentUserSubmissions
+    let currentUserContributions: [JSONAny]
     let coverPhoto: CoverPhoto?
 
     enum CodingKeys: String, CodingKey {
         case id, slug, title
-//        case welcomeDescription = "description"
-        case publishedAt = "published_at"
-        case updatedAt = "updated_at"
-        case startsAt = "starts_at"
-        case endsAt = "ends_at"
-//        case onlySubmissionsAfter = "only_submissions_after"
+        case onlySubmissionsAfter = "only_submissions_after"
         case featured
         case totalPhotos = "total_photos"
-        case links, status
+        case status
         case owners
-//        case currentUserContributions = "current_user_contributions"
-//        case totalCurrentUserSubmissions = "total_current_user_submissions"
+        case currentUserContributions = "current_user_contributions"
         case coverPhoto = "cover_photo"
     }
 }
@@ -72,8 +64,6 @@ struct Topic: Codable {
 // MARK: - CoverPhoto
 struct CoverPhoto: Codable {
     let id: String?
-    let createdAt, updatedAt: Date?
-//    let promotedAt: JSONNull?
     let width, height: Int?
     let color, blurHash, coverPhotoDescription, altDescription: String?
     let urls: Urls?
@@ -83,9 +73,6 @@ struct CoverPhoto: Codable {
 
     enum CodingKeys: String, CodingKey {
         case id
-        case createdAt = "created_at"
-        case updatedAt = "updated_at"
-//        case promotedAt = "promoted_at"
         case width, height, color
         case blurHash = "blur_hash"
         case coverPhotoDescription = "description"
@@ -118,8 +105,4 @@ struct PreviewPhoto: Codable {
         case updatedAt = "updated_at"
         case urls
     }
-}
-
-// MARK: - TotalCurrentUserSubmissions
-struct TotalCurrentUserSubmissions: Codable {
 }
