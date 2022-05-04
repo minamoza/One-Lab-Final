@@ -100,7 +100,6 @@ extension SearchResultPage: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let newVC = DetailedPhotoPage(imageUrl: images1[indexPath.row].photoImage, titleText: images1[indexPath.row].user)
         self.navigationController?.pushViewController(newVC, animated: true)
-        
-        
+
     }
 }

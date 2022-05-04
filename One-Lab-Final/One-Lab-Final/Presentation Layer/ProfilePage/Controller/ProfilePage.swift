@@ -9,6 +9,8 @@ import UIKit
 
 class ProfilePage: UIViewController {
     
+    var user: SearchedUsers?
+    
     private let userViewModel: UserViewModel
     private let userPhotosViewModel: UserPhotosViewModel
     
@@ -30,7 +32,7 @@ class ProfilePage: UIViewController {
         return sectionLabel
     }()
     
-    private let segmentedController =  UISegmentedControl (items: ["Photos","Likes","Collections"])
+    private let segmentedControl =  UISegmentedControl (items: ["Photos","Likes","Collections"])
     private let name = UILabel()
     
     private var userPhotos: [PhotoCellModel] = []
@@ -48,6 +50,7 @@ class ProfilePage: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
+        segmentedControl.addTarget(self, action: #selector(reloadPhoto), for: .valueChanged)
     }
     
     init(userViewModel: UserViewModel, userPhotoViewModel: UserPhotosViewModel){
@@ -60,48 +63,65 @@ class ProfilePage: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func createHeader(){
+    @objc func reloadPhoto(){
+        userPhotos.removeAll()
+        let selectedIndex = self.segmentedControl.selectedSegmentIndex
+        if let user = user{
+            switch selectedIndex
+            {
+            case 0:
+                userPhotosViewModel.getPhotoss(username: user.username, param: "photos")
+                bindUserPhotosViewModel()
+            case 1:
+                userPhotosViewModel.getPhotoss(username: user.username, param: "likes")
+                bindUserPhotosViewModel()
+            default:
+                userPhotosViewModel.getPhotoss(username: user.username, param: "collections")
+                bindUserPhotosViewModel()
+            }
+        }
+    }
+    
+    private func createHeader(){
         let header = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height * 0.25))
         
         header.addSubview(userPhoto)
         header.addSubview(username)
         header.addSubview(name)
-        header.addSubview(segmentedController)
+        header.addSubview(segmentedControl)
         
-        segmentedController.selectedSegmentIndex = 0
+        segmentedControl.selectedSegmentIndex = 0
         
         tableView.tableHeaderView = header
     }
+    
     func fetchData(){
         userViewModel.getUsers(query: "nas")
     }
     
     private func bindUserViewModel(){
         userViewModel.didLoadPhoto = { [self] photoDatas in
-            var user: SearchedUsers
             user = photoDatas[0]
-            username.text = user.username
-            name.text = user.name
-            userPhoto.load(url: URL(string: user.profileImage.medium)!)
-            userPhotosViewModel.getPhotoss(username: user.username, param: "likes")
-            bindUserPhotosViewModel()
-//            collectionViewForPhoto.dataSource = self
-//            collectionViewForPhoto.delegate = self
-//            collectionViewForPhoto.reloadData()
+            if let user = user{
+                username.text = user.username
+                name.text = user.name
+                userPhoto.load(url: URL(string: user.profileImage.medium)!)
+                userPhotosViewModel.getPhotoss(username: user.username, param: "photos")
+                bindUserPhotosViewModel()
+            }
         }
         
     }
     
     private func bindUserPhotosViewModel(){
+//        userPhotos.removeAll()
         userPhotosViewModel.didLoadPhoto = { [self] photoDatas in
             for photo in photoDatas{
                 let photoData = PhotoCellModel(photoImage: photo.urls.small, user: photo.user.firstName,
                                           width: Double(photo.width), height: Double(photo.height))
                 userPhotos.append(photoData)
             }
-//            collectionViewForPhoto.dataSource = self
-//            collectionViewForPhoto.delegate = self
-//            collectionViewForPhoto.reloadData()
+            tableView.reloadData()
         }
     }
     
@@ -115,7 +135,7 @@ class ProfilePage: UIViewController {
         userPhoto.snp.makeConstraints { make in
             make.size.equalTo(100)
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(10)
         }
 
         username.snp.makeConstraints { make in
@@ -128,7 +148,7 @@ class ProfilePage: UIViewController {
             make.top.equalTo(username.snp.bottom).offset(10)
         }
         
-        segmentedController.snp.makeConstraints { make in
+        segmentedControl.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(name.snp.bottom).offset(10)
         }
@@ -138,37 +158,35 @@ class ProfilePage: UIViewController {
 
 extension ProfilePage: UITableViewDelegate, UITableViewDataSource{
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
-//        let selectedIndex = self.segmentedControl.selectedSegmentIndex
-//        switch selectedIndex
-//        {
-//        case 0:
-//            return peopleArray.count
-//        case 1:
-//            return imagesArray.count
-//        //Add other cases here
-//        default:
-//            return 0
-//        }
-        return 0
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+        let selectedIndex = self.segmentedControl.selectedSegmentIndex
+        switch selectedIndex{
+        case 0:
+           return userPhotos.count
+        case 1:
+            return userPhotos.count
+        default:
+            return 0
+        }
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
-    {
-//        let selectedIndex = self.segmentedControl.selectedSegmentIndex
-//        switch selectedIndex
-//        {
-//        case 0:
-//            return tableView.dequeueReusableCell(withIdentifier: "peopleCell", for: indexPath) //Do your custom handling whatever required.
-//        case 1:
-//            return tableView.dequeueReusableCell(withIdentifier: "imageCell", for: indexPath)
-//        //Add other cases here
-//        default:
-//            return UITableViewCell()
-//        }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         
-        return UITableViewCell()
+        let url = userPhotos[indexPath.row].photoImage
+        tableView.register(ProfilePhotoCell.self, forCellReuseIdentifier: ProfilePhotoCell.identifier)
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: ProfilePhotoCell.identifier, for: indexPath) as! ProfilePhotoCell
+        cell.configureCell(photoUrl: url)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
+        return 350
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newVC = DetailedPhotoPage(imageUrl: userPhotos[indexPath.row].photoImage, titleText: userPhotos[indexPath.row].user)
+        self.navigationController?.pushViewController(newVC, animated: true)
     }
     
     
