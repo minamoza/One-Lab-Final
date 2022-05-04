@@ -159,15 +159,18 @@ extension HeaderCollectionView: UISearchBarDelegate, UISearchDisplayDelegate{
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
-        let newVC = SearchResultPage(viewModel: SearchedPhotoViewModel(photoService: GetSearchedPhotoImpl()))
-        newVC.fetchData(query: searchText)
+        let newVC = SearchResultPage()
+        newVC.searchPhotosVC.fetchData(query: searchText)
+        newVC.searchText = searchText
         self.navigationController?.pushViewController(newVC, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let newVC = SearchResultPage(viewModel: SearchedPhotoViewModel(photoService: GetSearchedPhotoImpl()))
+        let newVC = SearchPhotoResultPage(viewModel: SearchedPhotoViewModel(photoService: GetSearchedPhotoImpl()))
+       
+   //     let newVC = SearchResultPage(viewModel: SearchedPhotoViewModel(photoService: GetSearchedPhotoImpl()))
         newVC.fetchData(query: categories[indexPath.row])
         self.navigationController?.pushViewController(newVC, animated: true)
-    }
     
+}
 }
