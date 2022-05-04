@@ -17,11 +17,11 @@ class SearchResultPage: UIViewController {
         cv.backgroundColor = .systemBackground
         cv.showsHorizontalScrollIndicator = false
         cv.showsVerticalScrollIndicator = false
-        cv.register(DiscoverSubCell.self, forCellWithReuseIdentifier: DiscoverSubCell.identifier)
+        cv.register(DiscoverCell.self, forCellWithReuseIdentifier: DiscoverCell.identifier)
         return cv
     }()
     
-    var images1: [PhotoCell] = []
+    var images1: [PhotoCellModel] = []
     
     private let photoViewModel: SearchedPhotoViewModel
     
@@ -36,8 +36,6 @@ class SearchResultPage: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         configureCollectionView()
     }
     
@@ -50,11 +48,12 @@ class SearchResultPage: UIViewController {
     private func bindViewModel(){
         photoViewModel.didLoadPhoto = { [self] photoDatas in
             for photo in photoDatas{
-                let photoData = PhotoCell(photoImage: photo.urls.full, user: photo.user.firstName,
+                let photoData = PhotoCellModel(photoImage: photo.urls.small, user: photo.user.firstName,
                                           width: Double(photo.width), height: Double(photo.height))
                 images1.append(photoData)
             }
             collectionViewForPhoto.dataSource = self
+            collectionViewForPhoto.delegate = self
             collectionViewForPhoto.reloadData()
         }
         
@@ -67,7 +66,7 @@ class SearchResultPage: UIViewController {
         }
     }
     
-    private func setUpCollectionViewItemSize(){
+    func setUpCollectionViewItemSize(){
         let customLayout = CustomLayout()
         customLayout.delegate = self
         collectionViewForPhoto.collectionViewLayout = customLayout
@@ -85,7 +84,7 @@ extension SearchResultPage: CustomLayoutDelegate{
 extension SearchResultPage: UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiscoverSubCell.identifier, for: indexPath) as! DiscoverSubCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiscoverCell.identifier, for: indexPath) as! DiscoverCell
         cell.configure(data: images1[indexPath.row])
         return cell
     }
@@ -94,4 +93,14 @@ extension SearchResultPage: UICollectionViewDataSource{
         return images1.count
     }
     
+}
+
+extension SearchResultPage: UICollectionViewDelegate{
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let newVC = DetailedPhotoPage(imageUrl: images1[indexPath.row].photoImage, titleText: images1[indexPath.row].user)
+        self.navigationController?.pushViewController(newVC, animated: true)
+        
+        
+    }
 }

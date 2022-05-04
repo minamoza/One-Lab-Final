@@ -21,15 +21,20 @@ class MainPage: UITabBarController {
         super.viewWillAppear(animated)
         
         let myFeed = FeedPage()
-        let searchPage = SearchPage(viewModel: PhotoViewModel(photoService: GetPhotoServiceImpl()))
+        
+//        let searchPage = DiscoverCollectionView()
+        let searchPage = HeaderCollectionView()
+//        let searchPage = DiscoveryCollectionView(viewModel: PhotoViewModel(photoService: GetPhotoServiceImpl()))
 //        let myPins = MyPinsVC()
-//        let myProfile = MyProfileVC()
+        let myProfile = ProfilePage(userViewModel: UserViewModel(userService: UserServiceImpl()),
+                                    userPhotoViewModel: UserPhotosViewModel(userService: UserPhotosServiceImpl()))
         
         myFeed.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
         searchPage.tabBarItem = UITabBarItem(tabBarSystemItem: .downloads, tag: 1)
+        myProfile.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 2)
 //        searchPage.navigationItem.titleView = searchBar
         
-        let controllers = [myFeed, searchPage]
+        let controllers = [myFeed, searchPage, myProfile]
         self.viewControllers = controllers
         self.viewControllers = controllers.map { UINavigationController(rootViewController: $0)}
 

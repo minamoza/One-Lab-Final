@@ -12,7 +12,8 @@ protocol CustomLayoutDelegate: class {
     func collectionView(_ collectionView: UICollectionView, sizeOfPhotoAtIndexPath indexPath: IndexPath) -> CGSize
 }
 
-class CustomLayout: UICollectionViewLayout{
+class CustomLayout: UICollectionViewFlowLayout, UICollectionViewDelegateFlowLayout{
+    
     weak var delegate: CustomLayoutDelegate!
     
     var numberOfColumns = 2

@@ -8,11 +8,11 @@
 import Foundation
 
 class PhotoViewModel{
-    private let photoService: GetPhotoService
+    private let photoService: PhotoService
     
     var didLoadPhoto: (([Photo]) -> Void)?
     
-    init(photoService: GetPhotoService){
+    init(photoService: PhotoService){
         self.photoService = photoService
     }
     

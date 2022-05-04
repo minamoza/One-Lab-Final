@@ -8,18 +8,18 @@ import Foundation
 import Alamofire
 import AlamofireImage
 
-protocol GetPhotoService{
+protocol PhotoService{
     func getPhotos(success:@escaping ([Photo]) -> Void, failure:@escaping (Error) -> Void)
 }
 
 
-class GetPhotoServiceImpl: GetPhotoService{
+class PhotoServiceImpl: PhotoService{
     
     func getPhotos(success:@escaping ([Photo]) -> Void, failure:@escaping (Error) -> Void) {
         let urlString = String(format: "%@photos", EndPoint.baseurl)
         guard let url = URL(string: urlString) else { return }
         
-        let queryParams: Parameters = ["client_id": EndPoint.apiKey]
+        let queryParams: Parameters = ["client_id": EndPoint.apiKey, "per_page": "30"]
         AF.request(url, method: .get, parameters: queryParams).responseDecodable{(response: DataResponse<[Photo], AFError>) in
 
             switch response.result{
@@ -29,6 +29,7 @@ class GetPhotoServiceImpl: GetPhotoService{
                 failure(error)
             }
         }
+        
     }
     
 }
@@ -42,10 +43,8 @@ struct Photo: Codable {
     let welcomeDescription: String?
     let urls: Urls
     let links: WelcomeLinks
-//    let categories: [JSONAny]
     let likes: Int
     let likedByUser: Bool
-//    let currentUserCollections: [JSONAny]
     let topicSubmissions: TopicSubmissions
     let user: User
 
@@ -57,7 +56,6 @@ struct Photo: Codable {
         case welcomeDescription = "description"
         case urls, links, likes
         case likedByUser = "liked_by_user"
-//        case currentUserCollections = "current_user_collections"
         case topicSubmissions = "topic_submissions"
         case user
     }

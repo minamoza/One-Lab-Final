@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import Alamofire
 
-typealias DiscoverCellConfigurator = CollectionViewCellConfigurator<DiscoverSubCell, PhotoCell>
+typealias DiscoverCellConfigurator = CollectionViewCellConfigurator<DiscoverCell, PhotoCellModel>
 
-class DiscoverSubCell: UICollectionViewCell, ConfigurableCell {
+class DiscoverCell: UICollectionViewCell, ConfigurableCell {
     
-    typealias DataType = PhotoCell
+    typealias DataType = PhotoCellModel
     
     static let identifier = "DiscoverViewCell"
     
@@ -54,14 +55,13 @@ class DiscoverSubCell: UICollectionViewCell, ConfigurableCell {
         }
     }
     
-    func configure(data: PhotoCell) {
-        if let photoURL = URL(string: data.photoImage){
-            imageView.load(url: photoURL)
-        }
+    func configure(data: PhotoCellModel) {
         label.text = data.user
+        imageView.load(url: URL(string: data.photoImage)!)
     }
 
 }
+
 
 extension UIImageView {
     func load(url: URL) {

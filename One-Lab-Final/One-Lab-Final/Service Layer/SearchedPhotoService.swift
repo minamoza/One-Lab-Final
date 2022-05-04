@@ -18,7 +18,7 @@ class GetSearchedPhotoImpl: GetSearchedPhotoService{
         let urlString = String(format: "%@search/photos", EndPoint.baseurl)
         guard let url = URL(string: urlString) else { return }
         
-        let queryParams: Parameters = ["client_id": EndPoint.apiKey, "page": "1", "query": query]
+        let queryParams: Parameters = ["client_id": EndPoint.apiKey, "page": "1", "per_page": "50", "query": query]
         AF.request(url, method: .get, parameters: queryParams).responseDecodable{(response: DataResponse<SearchedPhoto, AFError>) in
             switch response.result{
             case .success(let collectionData):
@@ -50,9 +50,7 @@ struct Result: Codable {
     let color, blurHash: String
     let likes: Int
     let likedByUser: Bool
-//    let resultDescription: String
     let user: User
-//    let currentUserCollections: [JSONAny]
     let urls: Urls
     let links: ResultLinks
 
@@ -63,9 +61,7 @@ struct Result: Codable {
         case blurHash = "blur_hash"
         case likes
         case likedByUser = "liked_by_user"
-//        case resultDescription = "description"
         case user
-//        case currentUserCollections = "current_user_collections"
         case urls, links
     }
 }
