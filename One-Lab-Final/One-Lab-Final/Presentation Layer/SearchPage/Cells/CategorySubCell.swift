@@ -7,11 +7,11 @@
 
 import SnapKit
 
-typealias CategoryCellConfigurator = CollectionViewCellConfigurator<CategorySubCell, CategoryModel>
+typealias CategoryCellConfigurator = CollectionViewCellConfigurator<CategorySubCell, CategoryCellModel>
 
 class CategorySubCell: UICollectionViewCell, ConfigurableCell {
 
-    typealias DataType = CategoryModel
+    typealias DataType = CategoryCellModel
     
     static let identifier = "CollectionViewCell"
     
@@ -53,7 +53,7 @@ class CategorySubCell: UICollectionViewCell, ConfigurableCell {
         }
     }
     
-    func configure(data: CategoryModel) {
+    func configure(data: CategoryCellModel) {
         imageView.image = UIImage(named: data.image)
         label.text = data.description
     }

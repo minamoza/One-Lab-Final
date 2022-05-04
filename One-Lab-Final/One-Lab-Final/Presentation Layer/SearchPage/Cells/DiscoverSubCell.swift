@@ -7,11 +7,11 @@
 
 import UIKit
 
-typealias DiscoverCellConfigurator = CollectionViewCellConfigurator<DiscoverSubCell, PhotoCell>
+typealias DiscoverCellConfigurator = CollectionViewCellConfigurator<DiscoverSubCell, PhotoCellModel>
 
 class DiscoverSubCell: UICollectionViewCell, ConfigurableCell {
     
-    typealias DataType = PhotoCell
+    typealias DataType = PhotoCellModel
     
     static let identifier = "DiscoverViewCell"
     
@@ -54,7 +54,7 @@ class DiscoverSubCell: UICollectionViewCell, ConfigurableCell {
         }
     }
     
-    func configure(data: PhotoCell) {
+    func configure(data: PhotoCellModel) {
         if let photoURL = URL(string: data.photoImage){
             imageView.load(url: photoURL)
         }

@@ -6,13 +6,14 @@
 //
 
 import Foundation
+import UIKit
 
-struct CategoryModel{
+struct CategoryCellModel{
     let image: String
     let description: String
 }
 
-struct PhotoCell{
+struct PhotoCellModel{
     let photoImage: String
     let user: String
     let width: Double

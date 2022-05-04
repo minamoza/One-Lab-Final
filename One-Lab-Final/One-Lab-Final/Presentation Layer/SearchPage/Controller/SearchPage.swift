@@ -12,11 +12,9 @@ enum Section: Int, CaseIterable {
    case categorySection = 0, discoverSection
 }
 
-class SearchPage: UIViewController {
+class SearchPage: UIViewController, UISearchControllerDelegate {
     
-//    private var timer: Timer
-    
-    private let searchBar = UISearchBar()
+    private let searchControler = UISearchController()
     private let collectionViewForCategory: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -33,10 +31,6 @@ class SearchPage: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .systemBackground
-        cv.register(HeaderCollectionView.self,
-                    forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                    withReuseIdentifier: HeaderCollectionView.identifier)
-//        cv.isScrollEnabled = false
         return cv
     }()
  
@@ -49,7 +43,7 @@ class SearchPage: UIViewController {
     private var categoryCell: [CellConfigurator] = []
     private var discoverCell: [CellConfigurator] = []
     private var items = [[CellConfigurator]]()
-    private var photosArray: [PhotoCell] = []
+    private var photosArray: [PhotoCellModel] = []
     private var sections: [Section] = [.categorySection, .discoverSection]
     
     private let photoViewModel: PhotoViewModel
@@ -68,10 +62,10 @@ class SearchPage: UIViewController {
         
         view.backgroundColor = .systemBackground
         
-        navigationItem.titleView = searchBar
+        navigationItem.titleView = searchControler.searchBar
         
         for category in categories{
-            categoryCell.append(CategoryCellConfigurator(item: CategoryModel(image: category, description: category)))
+            categoryCell.append(CategoryCellConfigurator(item: CategoryCellModel(image: category, description: category)))
         }
         
         configureCollectionView()
@@ -83,7 +77,7 @@ class SearchPage: UIViewController {
         collectionViewForCategory.dataSource = self
         collectionViewForPhoto.dataSource = self
         collectionViewForPhoto.delegate = self
-        searchBar.delegate = self
+        searchControler.searchBar.delegate = self
         
 //        searchBar.hidesNavigationBarDuringPresentation = false
         
@@ -99,7 +93,7 @@ class SearchPage: UIViewController {
     private func bindViewModel(){
         photoViewModel.didLoadPhoto = { [self] photoDatas in
             for photo in photoDatas{
-                let photoData = PhotoCell(photoImage: photo.urls.full, user: photo.user.firstName,
+                let photoData = PhotoCellModel(photoImage: photo.urls.small, user: photo.user.firstName,
                                           width: Double(photo.width), height: Double(photo.height))
                 discoverCell.append(DiscoverCellConfigurator(item: photoData))
                 photosArray.append(photoData)
@@ -164,7 +158,7 @@ class SearchPage: UIViewController {
 
 }
 
-extension SearchPage: UICollectionViewDataSource{
+extension SearchPage: UICollectionViewDataSource, UICollectionViewDelegate{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -191,24 +185,25 @@ extension SearchPage: UICollectionViewDataSource{
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch collectionView{
+        case collectionViewForCategory:
+            let newVC = SearchResultPage(viewModel: SearchedPhotoViewModel(photoService: GetSearchedPhotoImpl()))
+            newVC.fetchData(query: categories[indexPath.row])
+            self.navigationController?.pushViewController(newVC, animated: true)
+        default:
+            let newVC = DetailedPhotoPage(imageUrl: photosArray[indexPath.row].photoImage, titleText: photosArray[indexPath.row].user)
+            self.navigationController?.pushViewController(newVC, animated: true)
+        }
+        
+    }
+    
 }
 
 extension SearchPage:UICollectionViewDelegateFlowLayout{
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.height * 0.45, height: collectionView.frame.height * 0.45)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader,
-                                                                     withReuseIdentifier: HeaderCollectionView.identifier,
-                                                                     for: indexPath) as! HeaderCollectionView
-        header.configure()
-        return header
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.size.width, height: view.frame.size.height * 0.35)
     }
 }
 
@@ -217,6 +212,7 @@ extension SearchPage: CustomLayoutDelegate{
     func collectionView(_ collectionView: UICollectionView, sizeOfPhotoAtIndexPath indexPath: IndexPath) -> CGSize {
         return CGSize(width: photosArray[indexPath.row].width, height: photosArray[indexPath.row].height)
     }
+    
 }
 
 extension SearchPage: UISearchBarDelegate, UISearchDisplayDelegate{

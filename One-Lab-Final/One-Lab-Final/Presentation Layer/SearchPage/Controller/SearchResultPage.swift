@@ -21,7 +21,7 @@ class SearchResultPage: UIViewController {
         return cv
     }()
     
-    var images1: [PhotoCell] = []
+    var images1: [PhotoCellModel] = []
     
     private let photoViewModel: SearchedPhotoViewModel
     
@@ -50,11 +50,12 @@ class SearchResultPage: UIViewController {
     private func bindViewModel(){
         photoViewModel.didLoadPhoto = { [self] photoDatas in
             for photo in photoDatas{
-                let photoData = PhotoCell(photoImage: photo.urls.full, user: photo.user.firstName,
+                let photoData = PhotoCellModel(photoImage: photo.urls.small, user: photo.user.firstName,
                                           width: Double(photo.width), height: Double(photo.height))
                 images1.append(photoData)
             }
             collectionViewForPhoto.dataSource = self
+            collectionViewForPhoto.delegate = self
             collectionViewForPhoto.reloadData()
         }
         
@@ -94,4 +95,13 @@ extension SearchResultPage: UICollectionViewDataSource{
         return images1.count
     }
     
+}
+
+extension SearchResultPage: UICollectionViewDelegate{
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let newVC = DetailedPhotoPage(imageUrl: images1[indexPath.row].photoImage, titleText: images1[indexPath.row].user)
+        self.navigationController?.pushViewController(newVC, animated: true)
+
+    }
 }
