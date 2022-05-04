@@ -13,7 +13,7 @@ import SnapKit
 class FeedPage: TabmanViewController {
     
     private var viewControllers: Array<UIViewController> = []
-    private let EditorialVc = EditorialViewController()
+    private let EditorialVc = EditorialViewController(viewModel: TopicViewModel(topicService: GetTopicImpl()))
     private let CurrentEventsVC = CurrentEventsViewController()
     private let WallpapersVC = WallpapersViewController()
     private let RendersVC = RendersViewController()

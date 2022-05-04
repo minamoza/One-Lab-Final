@@ -23,12 +23,15 @@ class EditorialViewController: UIViewController {
         return table
     }()
     
+    private let topicViewModel: TopicViewModel
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .darkGray
         tableView.delegate = self
         tableView.dataSource = self
         setup()
+        fetchData()
     }
     
     private func setup(){
@@ -39,6 +42,19 @@ class EditorialViewController: UIViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
+    init(viewModel: TopicViewModel) {
+        self.topicViewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func fetchData(){
+        topicViewModel.getTopic()
+    }
+    
 }
 
 extension EditorialViewController: UITableViewDelegate{
