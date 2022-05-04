@@ -23,7 +23,7 @@ class TableDirector: NSObject {
         self.tableView = tableView
         super.init()
         self.tableView.separatorColor = .white
-        self.tableView.separatorStyle = .none
+//        self.tableView.separatorStyle = .none
         self.tableView.separatorStyle = .singleLine
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -64,6 +64,7 @@ extension TableDirector: UITableViewDelegate {
 extension TableDirector: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        
         return self.items.count > 0 ? 1 : 0
     }
     
@@ -79,4 +80,5 @@ extension TableDirector: UITableViewDataSource {
         cellConfig.configure(cell: cell)
         return cell
     }
+
 }

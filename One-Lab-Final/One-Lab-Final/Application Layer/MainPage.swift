@@ -22,15 +22,15 @@ class MainPage: UITabBarController {
         
         let myFeed = FeedPage()
         let searchPage = SearchPage(viewModel: PhotoViewModel(photoService: GetPhotoServiceImpl()))
-        let myProfile = ProfilePage(userViewModel: UserViewModel(userService: UserServiceImpl()),
-                                            userPhotoViewModel: UserPhotosViewModel(userService: UserPhotosServiceImpl()))
+//        let myProfile = ProfilePage(userViewModel: UserViewModel(userService: UserServiceImpl()),
+//                                            userPhotoViewModel: UserPhotosViewModel(userService: UserPhotosServiceImpl()))
 
         
         myFeed.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
         searchPage.tabBarItem = UITabBarItem(tabBarSystemItem: .downloads, tag: 1)
-        myProfile.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 2)
+//        myProfile.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 2)
         
-        let controllers = [myFeed, searchPage, myProfile]
+        let controllers = [myFeed, searchPage]
         self.viewControllers = controllers
         self.viewControllers = controllers.map { UINavigationController(rootViewController: $0)}
 

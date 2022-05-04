@@ -8,10 +8,7 @@
 import UIKit
 
 class ProfilePage: UIViewController {
-    
-    var user: SearchedUsers?
-    
-    private let userViewModel: UserViewModel
+
     private let userPhotosViewModel: UserPhotosViewModel
     
     private let tableView = UITableView()
@@ -44,17 +41,13 @@ class ProfilePage: UIViewController {
         view.backgroundColor = .systemBackground
         createHeader()
         configureConstraints()
-        fetchData()
-        bindUserViewModel()
-        
         tableView.delegate = self
         tableView.dataSource = self
         
-        segmentedControl.addTarget(self, action: #selector(reloadPhoto), for: .valueChanged)
+        segmentedControl.addTarget(self, action: #selector(reloadPhoto), for: .allEvents)
     }
     
-    init(userViewModel: UserViewModel, userPhotoViewModel: UserPhotosViewModel){
-        self.userViewModel = userViewModel
+    init(userPhotoViewModel: UserPhotosViewModel){
         self.userPhotosViewModel = userPhotoViewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -66,17 +59,17 @@ class ProfilePage: UIViewController {
     @objc func reloadPhoto(){
         userPhotos.removeAll()
         let selectedIndex = self.segmentedControl.selectedSegmentIndex
-        if let user = user{
+        if let user = username.text{
             switch selectedIndex
             {
             case 0:
-                userPhotosViewModel.getPhotoss(username: user.username, param: "photos")
+                userPhotosViewModel.getPhotoss(username: user, param: "photos")
                 bindUserPhotosViewModel()
             case 1:
-                userPhotosViewModel.getPhotoss(username: user.username, param: "likes")
+                userPhotosViewModel.getPhotoss(username: user, param: "likes")
                 bindUserPhotosViewModel()
             default:
-                userPhotosViewModel.getPhotoss(username: user.username, param: "collections")
+                userPhotosViewModel.getPhotoss(username: user, param: "collections")
                 bindUserPhotosViewModel()
             }
         }
@@ -95,22 +88,13 @@ class ProfilePage: UIViewController {
         tableView.tableHeaderView = header
     }
     
-    func fetchData(){
-        userViewModel.getUsers(query: "nas")
-    }
     
-    private func bindUserViewModel(){
-        userViewModel.didLoadPhoto = { [self] photoDatas in
-            user = photoDatas[0]
-            if let user = user{
-                username.text = user.username
-                name.text = user.name
-                userPhoto.load(url: URL(string: user.profileImage.medium)!)
-                userPhotosViewModel.getPhotoss(username: user.username, param: "photos")
-                bindUserPhotosViewModel()
-            }
-        }
-        
+    func bindUserViewModel(user: UserCellModel){
+        username.text = user.username
+        name.text = user.name
+        userPhoto.load(url: URL(string: user.photoImage)!)
+        userPhotosViewModel.getPhotoss(username: user.username, param: "photos")
+        bindUserPhotosViewModel()
     }
     
     private func bindUserPhotosViewModel(){

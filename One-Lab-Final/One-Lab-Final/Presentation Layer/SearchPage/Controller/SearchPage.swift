@@ -79,7 +79,7 @@ class SearchPage: UIViewController, UISearchControllerDelegate {
         collectionViewForPhoto.delegate = self
         searchControler.searchBar.delegate = self
         
-//        searchBar.hidesNavigationBarDuringPresentation = false
+        searchControler.hidesNavigationBarDuringPresentation = false
         
         items.append(categoryCell)
         items.append(discoverCell)
@@ -219,9 +219,6 @@ extension SearchPage: UISearchBarDelegate, UISearchDisplayDelegate{
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
-//        let newVC = SearchPhotoPage(viewModel: SearchedPhotoViewModel(photoService: GetSearchedPhotoImpl()))
-//        newVC.fetchData(query: searchText)
-//        self.navigationController?.pushViewController(newVC, animated: true)
         
         let newVC = SearchResultPage()
         newVC.searchPhotosVC.fetchData(query: searchText)

@@ -126,12 +126,12 @@ struct User: Codable {
 
 // MARK: - UserLinks
 struct UserLinks: Codable {
-    let linksSelf, html, photos, likes: String
+    let linksSelf, html, photos: String
     let portfolio, following, followers: String
 
     enum CodingKeys: String, CodingKey {
         case linksSelf = "self"
-        case html, photos, likes, portfolio, following, followers
+        case html, photos, portfolio, following, followers
     }
 }
 

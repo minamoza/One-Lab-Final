@@ -7,10 +7,11 @@
 
 import UIKit
 
-typealias SearchUserCellConfigurator = TableCellConfigurator<SearchUserTableViewCell, User>
+typealias SearchUserCellConfigurator = TableCellConfigurator<SearchUserTableViewCell, UserCellModel>
 
 class SearchUserTableViewCell : UITableViewCell, ConfigurableCell {
-    typealias DataType = User
+    
+    typealias DataType = UserCellModel
     
     static let didTapUserCellAction = "UserCellDidTapButtonAction"
     
@@ -62,9 +63,8 @@ class SearchUserTableViewCell : UITableViewCell, ConfigurableCell {
         CellAction.custom(type(of: self).didTapUserCellAction).invoke(cell: self)
     }*/
 
-    func configure(data: User) {
-//        ??????
-//        avatarImageView.image = UIImage(named: data.profileImage)
+    func configure(data: UserCellModel) {
+        avatarImageView.load(url: URL(string: data.photoImage)!)
         nameLabel.text = data.name
         usernameLabel.text = data.username
     }

@@ -10,9 +10,8 @@ import UIKit
 class SearchResultPage: UIViewController {
 
     lazy var searchText = ""
-    lazy var searchUsersVC = SearchUserResultPage()
-    lazy var searchCollectionsVC = SearchCollectionsPage()
-//    lazy var searchPhotosVC = SearchPhotoResultPage(viewModel: SearchedPhotoViewModel(photoService: GetSearchedPhotoImpl()))
+    lazy var searchUsersVC = SearchUserResultPage(userViewModel: UserViewModel(userService: UserServiceImpl()))
+    lazy var searchCollectionsVC = SearchCollectionsPage(collectionViewModel: CollectionViewModel(collectionService: GetCollectionServiceImpl()))
     lazy var searchPhotosVC = SearchPhotoPage(viewModel: SearchedPhotoViewModel(photoService: GetSearchedPhotoImpl()))
 
     
@@ -81,12 +80,14 @@ extension SearchResultPage: UISearchResultsUpdating {
         if scope == "Collections" {
             searchUsersVC.remove()
             searchPhotosVC.remove()
+            searchCollectionsVC.fetchData(query: searchText)
             add(searchCollectionsVC)
         }
         
         if scope == "Users" {
             searchPhotosVC.remove()
             searchCollectionsVC.remove()
+            searchUsersVC.fetchData(query: searchText)
             add(searchUsersVC)
         }
         

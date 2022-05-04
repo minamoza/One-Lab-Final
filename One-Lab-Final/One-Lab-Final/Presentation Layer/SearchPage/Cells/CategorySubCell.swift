@@ -43,7 +43,8 @@ class CategorySubCell: UICollectionViewCell, ConfigurableCell {
         imageView.snp.makeConstraints { make in
 //            make.centerX.equalTo(contentView.snp.centerX)
             make.center.equalTo(contentView.snp.center)
-            make.size.equalTo(contentView.frame.height)
+            make.width.equalTo(contentView.frame.width)
+            make.height.equalTo(contentView.frame.height)
         }
     }
     
@@ -54,7 +55,11 @@ class CategorySubCell: UICollectionViewCell, ConfigurableCell {
     }
     
     func configure(data: CategoryCellModel) {
-        imageView.image = UIImage(named: data.image)
+        if data.image.contains("http"){
+            imageView.load(url: URL(string: data.image)!)
+        }else{
+            imageView.image = UIImage(named: data.image)
+        }
         label.text = data.description
     }
     

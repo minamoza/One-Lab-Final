@@ -19,3 +19,9 @@ struct PhotoCellModel{
     let width: Double
     let height: Double
 }
+
+struct UserCellModel{
+    let photoImage: String
+    let name: String
+    let username: String
+}

@@ -9,6 +9,14 @@ import UIKit
 import SnapKit
 
 class SearchCollectionsPage: UIViewController{
+    
+    var searchText = ""
+    
+    private let collectionViewModel: CollectionViewModel
+    
+    private var collections: [CellConfigurator] = []
+    private var collectionData: [CategoryCellModel] = []
+    
     private let collectionView: UICollectionView = {
         let collectionView = UICollectionView (frame: .zero, collectionViewLayout: UICollectionViewLayout())
         let viewLayout = UICollectionViewFlowLayout()
@@ -18,15 +26,45 @@ class SearchCollectionsPage: UIViewController{
         collectionView.backgroundColor = .black
         return collectionView
     }()
+    
+    init(collectionViewModel: CollectionViewModel){
+        self.collectionViewModel = collectionViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func fetchData(query: String){
+        collectionViewModel.getPhotos(query: query)
+        bindCollectionViewModel()
+    }
+    
+    func bindCollectionViewModel(){
+        collectionViewModel.didLoadPhoto = { [self] userDatas in
+            for user in userDatas{
+                let data = CategoryCellModel(image: user.coverPhoto.urls.small, description: user.title)
+                collectionData.append(data)
+                collections.append(CategoryCellConfigurator(item: data))
+            }
+            if !collections.isEmpty{
+                collectionView.reloadData()
+            }
+        }
+        
+    }
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
         layoutSubviews()
-        collectionView.register(SearchCollectionsCell.self, forCellWithReuseIdentifier: "SearchCollectionsCell")
+        collectionView.register(CategorySubCell.self, forCellWithReuseIdentifier: CategorySubCell.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        fetchData(query: searchText)
         
     }
     
@@ -50,26 +88,20 @@ extension SearchCollectionsPage: UICollectionViewDelegate{
 
 extension SearchCollectionsPage: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchCollectionsCell", for: indexPath) as! SearchCollectionsCell
-        cell.configure( collectionCellHeight:  (collectionView.bounds.size.height) / 2.7)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategorySubCell.identifier, for: indexPath) as! CategorySubCell
+        cell.configure(data: collectionData[indexPath.row])
         return  cell
     }
     
-   func collectionView(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return collectionData.count
     }
 }
 
 extension SearchCollectionsPage: UICollectionViewDelegateFlowLayout{
       func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-          let width = (UIScreen.main.bounds.size.width - 3 * 10)
           let height = (collectionView.bounds.size.height) / 2.7
-          return CGSize(width: width, height: height)
+          return CGSize(width: view.frame.width, height: height)
       }
 }
-
 
