@@ -19,8 +19,8 @@ class PhotoViewModel{
     func getPhotos(){
         photoService.getPhotos(
             success: { [weak self] category in
-//                print(category)
-                self?.didLoadPhoto?(category)
+                print(category)
+//                self?.didLoadPhoto?(category)
         }, failure: { error in
             print(error)
         })

@@ -10,11 +10,11 @@ import UIKit
 
 struct EditorialModel: Hashable{
     let imageName: String
-    let title: String
+//    let title: String
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(imageName)
-        hasher.combine(title)
+//        hasher.combine(title)
     }
 }
 

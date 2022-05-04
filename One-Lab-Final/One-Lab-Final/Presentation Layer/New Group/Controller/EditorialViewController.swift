@@ -9,14 +9,9 @@ import UIKit
 
 class EditorialViewController: UIViewController {
 
-    private let items: [CellConfigurator] = [
-        EditorialCellConfigurator(item: EditorialModel(imageName: "animals", title: "animals")),
-        EditorialCellConfigurator(item: EditorialModel(imageName: "Nature", title: "animals")),
-        EditorialCellConfigurator(item: EditorialModel(imageName: "animals", title: "animals")),
-        EditorialCellConfigurator(item: EditorialModel(imageName: "Underwater", title: "animals")),
-        EditorialCellConfigurator(item: EditorialModel(imageName: "Nature", title: "animals")),
-        EditorialCellConfigurator(item: EditorialModel(imageName: "Travel", title: "animals"))
-    ]
+//    private let items: [CellConfigurator] = []
+    private var topic: [EditorialModel] = []
+    private var items = [[CellConfigurator]]()
     
     private let tableView: UITableView = {
         let table = UITableView()
@@ -30,8 +25,10 @@ class EditorialViewController: UIViewController {
         view.backgroundColor = .darkGray
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.register(EditorialViewCell.self, forCellReuseIdentifier: EditorialViewCell.identifier)
         setup()
         fetchData()
+        bindViewMode()
     }
     
     private func setup(){
@@ -55,14 +52,25 @@ class EditorialViewController: UIViewController {
         topicViewModel.getTopic()
     }
     
+    private func bindViewMode(){
+        topicViewModel.didLoadPhoto = { [weak self] photoDatas in
+            for photo in photoDatas{
+                let photoData = EditorialModel(imageName: photo.coverPhoto.urls.full
+                )
+                self?.topic.append(photoData)
+            }
+            self?.tableView.reloadData()
+        }
+    }
+    
 }
 
 extension EditorialViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = items[indexPath.row]
-        tableView.register(type(of: item).cellClass, forCellReuseIdentifier: type(of: item).reuseId)
-        let cell = tableView.dequeueReusableCell(withIdentifier: type(of: item).reuseId, for: indexPath)
-        item.configure(cell: cell)
+        let item = topic[indexPath.row]
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: EditorialViewCell.identifier, for: indexPath) as! EditorialViewCell
+        cell.configure(data: topic[indexPath.row])
         
         return cell
     }
@@ -70,6 +78,6 @@ extension EditorialViewController: UITableViewDelegate{
 
 extension EditorialViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return topic.count
     }
 }

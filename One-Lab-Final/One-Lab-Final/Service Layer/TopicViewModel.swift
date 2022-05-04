@@ -9,22 +9,27 @@ import Foundation
 
 class TopicViewModel{
     private let topicService: GetTopicService
-    
+    var isRequestPerforming = false
     var didLoadPhoto: (([Topic]) -> Void)?
     
     init(topicService: GetTopicService){
         self.topicService = topicService
     }
     
-    func getTopic(){
-        topicService.getTopic {
-            [weak self] category in
-            DispatchQueue.main.async{
-            print(category)
-            }
-        } failure: { error in
-            print(error)
-        }
 
+    
+    func getTopic(){
+        isRequestPerforming = true
+        
+        topicService.getTopic(
+            success: { [weak self] category in
+//            print(category)
+                self?.didLoadPhoto?(category)
+            }, failure: { error in
+                print(error)
+            })
     }
+
+    
 }
+

@@ -7,32 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "512DC3B6-A865-40D0-BE62-D560A87806A4"
+            uuid = "5729A4AD-F244-454B-BAFC-CE227144AD67"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "One-Lab-Final/Service Layer/TopicViewModel.swift"
+            filePath = "One-Lab-Final/Presentation Layer/SearchPage/Models/PhotoViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
-            landmarkName = "getTopic()"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "getPhotos()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3893C4D6-F49E-4D0B-B5D9-1834D2BDDDE6"
+            uuid = "45884826-302E-4B1A-94E2-6CA4899595C5"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "One-Lab-Final/Service Layer/TopicViewModel.swift"
+            filePath = "One-Lab-Final/Presentation Layer/SearchPage/Models/PhotoViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "getTopic()"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "getPhotos()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

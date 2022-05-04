@@ -11,6 +11,9 @@ typealias EditorialCellConfigurator = TableCellConfigurator<EditorialViewCell, E
 
 class EditorialViewCell: UITableViewCell, ConfigurableCell {
     
+    typealias DataType = EditorialModel
+    static let identifier = "EditorialViewCell"
+    
     private let mainImage: UIImageView = {
         let imageView = UIImageView()
         return imageView
@@ -52,7 +55,7 @@ class EditorialViewCell: UITableViewCell, ConfigurableCell {
     
     func configure(data: EditorialModel) {
         mainImage.image = UIImage(named: data.imageName)
-        title.text = data.title
+//        title.text = data.title
     }
     
     
