@@ -29,7 +29,6 @@ class MainPage: UITabBarController {
         myFeed.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
         searchPage.tabBarItem = UITabBarItem(tabBarSystemItem: .downloads, tag: 1)
         myProfile.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 2)
-//        searchPage.navigationItem.titleView = searchBar
         
         let controllers = [myFeed, searchPage, myProfile]
         self.viewControllers = controllers

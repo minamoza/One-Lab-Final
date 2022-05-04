@@ -1,34 +1,25 @@
 //
-//  CellConfigurator.swift
+//  TableCellConfigurator.swift
 //  One-Lab-Final
 //
-//  Created by Бексултан Нурпейс on 02.05.2022.
+//  Created by Amina Moldamyrza on 04.05.2022.
 //
 
+import Foundation
 import UIKit
 
-//protocol CellConfigurator{
-//    static var reuseId: String { get }
-//    static var cellClass: AnyClass { get }
-//    func configure(cell: UIView)
-//}
-
-// GENERICS OF CELL DATAYPE
-
 class TableCellConfigurator<CellType: ConfigurableCell, DataType>: CellConfigurator where CellType.DataType == DataType, CellType: UITableViewCell {
-    static var reuseId: String{return String(describing: CellType.self)}
+    
+    static var reuseId: String { return CellType.reuseIdentifier }
     static var cellClass: AnyClass { return CellType.self }
     
     let item: DataType
     
     init(item: DataType) {
-            self.item = item
-        }
+        self.item = item
+    }
     
     func configure(cell: UIView) {
         (cell as! CellType).configure(data: item)
     }
-    
-    
-    
 }

@@ -188,7 +188,7 @@ extension SearchPage: UICollectionViewDataSource, UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView{
         case collectionViewForCategory:
-            let newVC = SearchResultPage(viewModel: SearchedPhotoViewModel(photoService: GetSearchedPhotoImpl()))
+            let newVC = SearchPhotoPage(viewModel: SearchedPhotoViewModel(photoService: GetSearchedPhotoImpl()))
             newVC.fetchData(query: categories[indexPath.row])
             self.navigationController?.pushViewController(newVC, animated: true)
         default:
@@ -219,8 +219,13 @@ extension SearchPage: UISearchBarDelegate, UISearchDisplayDelegate{
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
-        let newVC = SearchResultPage(viewModel: SearchedPhotoViewModel(photoService: GetSearchedPhotoImpl()))
-        newVC.fetchData(query: searchText)
+//        let newVC = SearchPhotoPage(viewModel: SearchedPhotoViewModel(photoService: GetSearchedPhotoImpl()))
+//        newVC.fetchData(query: searchText)
+//        self.navigationController?.pushViewController(newVC, animated: true)
+        
+        let newVC = SearchResultPage()
+        newVC.searchPhotosVC.fetchData(query: searchText)
+        newVC.searchText = searchText
         self.navigationController?.pushViewController(newVC, animated: true)
     }
     
