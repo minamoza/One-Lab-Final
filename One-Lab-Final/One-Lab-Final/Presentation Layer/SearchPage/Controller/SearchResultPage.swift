@@ -32,7 +32,7 @@ class SearchResultPage: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .blue
         
-        add(searchUsersVC)
+        add(searchPhotosVC)
         
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
